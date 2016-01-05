@@ -1,0 +1,91 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        // global variables, able to be used in all functions
+        var ballX; // x-location of the ball
+        var ballY; // y-location of the ball
+        var ballSpeedX = 5; // speed of the ball horizontally
+        var ballSpeedY = 5; // speed of the ball vertically
+        var paddleHeight = 30; // height of the paddle
+        var paddleWidth = 200; //width of the paddle
+
+
+        function setup() {
+            createCanvas(800, 600); // canvas size
+            noCursor(); // hides the mouse
+            ballX = width / 2; // start the ball in the
+            ballY = height / 2; // middle of the canvas
+
+        }
+
+        function draw() {
+            background(255, 255, 204); // resets the background
+            moveBall(); // ball moves in X and Y directions
+            checkCollide(); // checks for collision with walls or paddle
+            fill(255, 20, 147); //the paddle is pink
+            drawPaddle(); // re-draws paddle
+            fill(random(0, 255), random(230, 255), random(240, 255)); //ball is always a random shade of blue
+            drawBall(); // re-draws ball 
+        }
+
+
+        function moveBall() {
+            ballX = ballX + ballSpeedX; // updates ball location horizontally
+            ballY = ballY + ballSpeedY; // updates ball location vertically
+
+            // monitor speed/direction of ball
+            console.log("ballSpeedX: " + ballSpeedX + ", ballSpeedY: " + ballSpeedY);
+        }
+
+        function checkCollide() {
+            // left/right edges
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1; // switch X direction
+            }
+
+            // top edge
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1; // switch Y direction
+            }
+
+            // paddle
+            if (ballY > height - paddleHeight) { // ball is past 'goal line' vertically
+                if (ballX > mouseX && ballX < mouseX + paddleWidth) { // ball is within paddle horizontally
+                    ballSpeedY = ballSpeedY * -1; // switch Y direction
+                    paddleWidth = random(25, 200); //makes how long the paddle is random
+                    console.log("paddleWidth:" + paddleWidth); //in the console you can see how long the paddle is each time
+
+                }
+                else { // ball is on the left or right side of the paddle
+                    fill(0); //color of text
+                    textSize(50); //size of text
+                    text("GAME OVER!", width / 3.5, height / 2); //text and location of text
+                    noLoop(); // stop the draw loop
+                }
+            }
+        }
+
+        function drawBall() {
+            noStroke(); // no outline
+            ellipse(ballX, ballY, 20, 20); // draw a small ball at the current (x,y) location
+        }
+
+        function drawPaddle() {
+            strokeWeight(4); // border thickness of 4px
+
+            // rectangle y-value is always at the bottom, but shifted up the height of paddle and the border of paddle
+            rect(mouseX, height - paddleHeight - 4, paddleWidth, paddleHeight);
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
