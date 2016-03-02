@@ -1,0 +1,106 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Processing Template</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        var pawprints = [];
+        var clickCount = 0;
+        var r = 0;
+        var g = 0;
+        var b = 255;
+
+        function setup() {
+            createCanvas(400, 400);
+          
+        }
+
+        function draw() {
+            var pinkBlue = floor(clickCount / 10) % 2;
+
+            if (pinkBlue == 0) {
+                background(255, 192, 203);
+                // r = 0;
+                // g = 0;
+                // b = 255;
+                r = random(0, 176);
+                g = random(191, 224);
+                b = random(230, 255);
+
+
+            }
+            else {
+                background(135, 206, 250);
+                // r = 255;
+                // g = 192;
+                // b = 203;
+                r = random(199, 255);
+                g = random(21, 292);
+                b = random(147, 203);
+
+            }
+            
+            for (var i = 0; i < pawprints.length; i++) {
+
+                pawprints[i].display();
+
+
+
+        }
+        }
+
+        function Pawprint() {
+            this.x = mouseX;
+            this.y = mouseY;
+            this.r = r + random(-10,10);
+            this.g = g + random(-10,10);
+            this.b = b + random(-10,10);
+
+
+            this.display = function() {
+                fill(this.r, this.g, this.b);
+                ellipse(this.x, this.y, 45, 35);
+                ellipse(this.x - 31, this.y - 20, 20, 15);
+                ellipse(this.x - 10, this.y - 35, 20, 15);
+                ellipse(this.x + 15, this.y - 35, 20, 15);
+                ellipse(this.x + 31, this.y - 20, 20, 15);
+            }
+
+        }
+
+
+        function mousePressed() {
+            clickCount++;
+            if (clickCount > 4){
+                pawprints.splice(0,1);
+            }
+            
+            pawprints.push(new Pawprint());
+            
+        }
+
+        function keyPressed() {
+            if (key == "d" || key == "D") {
+                pawprints.splice(-1, 1);
+            }
+
+            else if (key == "R" || key == "r") {
+                pawprints.splice(0, 1);
+            }
+        }
+        
+        
+        //TO DO
+    // MAKE EACH PAWPRINT AN INDIVIDUAL SHADE OF PINK OR BLUE DEPENDING ON BACKGROUND
+    //MAKE BACKGROUND REFRESH IN THE CURRENT COLOR WHILE CONDITIONS ARE TRUE
+
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+</body>
+
+</html>
